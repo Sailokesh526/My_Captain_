@@ -1,0 +1,80 @@
+import numpy as np
+import matplotlib
+import pandas as pd
+import scipy
+import sklearn
+from matplotlib import pyplot
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import StratifiedKFold
+from sklearn.metrics import classification_report,confusion_matrix,accuracy_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
+from sklearn import model_selection
+from sklearn.ensemble import VotingClassifier
+
+#Loading  the data(Information)
+path="https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+names = ["sepal_length","sepal_width","petal_length","petal_width","class"]
+dataset =pd.read_csv(path, names= names)
+
+#dimensions of the dataset
+print(dataset.shape)
+
+#first five of the dataset
+print(dataset.head())
+
+#statistcal summary
+print(dataset.describe())
+#class distribution
+print(dataset.groupby("class").size())
+
+#univariate plots _ box and vtinker plots
+dataset.plot(kind="box",subplots=True,layout=(2,2),sharex=False,sharey=False)
+pyplot.show()
+
+#creating a validation dataset
+#splitting dataset
+array = dataset.values
+x = array[:,0:4]
+y = array[:,4]
+x_train,x_validation,y_train,y_validation = train_test_split(x,y,test_size=0.2,random_state=1)
+
+#logistic regression
+#linear discriminant analysis
+#k-nearest neighbours
+#classificationand regression trees
+#guassian naive bayes
+#support vector machines
+
+#building models
+models=[]
+models.append(("LR",LogisticRegression(solver= "liblinear",multi_class="ovr")))
+models.append(("LDR",LinearDiscriminantAnalysis()))
+models.append(("KNN",KNeighborsClassifier()))
+models.append(("NB",GaussianNB()))
+models.append(("SVM",SVC(gamma="auto")))
+
+#evalute the created models
+results =[]
+name =[]
+for name,model in models:
+    kfold = StratifiedKFold(n_splits=10)
+    cv_results = cross_val_score(model, x_train,y_train,cv=kfold,scoring="accuracy")
+    results.append(cv_results)
+    names.append(name)
+    print("%s: %f (%f)" % (name,cv_results.mean(),cv_results.std()))
+    
+#make predictions on svc
+model =SVC(gamma="auto")
+model.fit(x_train,y_train)
+predictions = model.predict(x_validation)
+
+#evaluate our predictions
+print(accuracy_score(y_validation,predictions))
+print(confusion_matrix(y_validation,predictions))
+print(classification_report(y_validation,predictions ))
