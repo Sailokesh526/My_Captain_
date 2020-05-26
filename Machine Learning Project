@@ -39,7 +39,7 @@ dataset.plot(kind="box",subplots=True,layout=(2,2),sharex=False,sharey=False)
 plt.show()
 
 #Histogram of the variable
-datasets.hist()
+dataset.hist()
 plt.show()
 
 #creating a validation dataset
@@ -67,7 +67,7 @@ models.append(("SVM",SVC(gamma="auto")))
 
 #evaluting the created models
 results =[]
-name =[]
+names =[]
 for name,model in models:
     kfold = StratifiedKFold(n_splits=10)
     cv_results = cross_val_score(model, x_train,y_train,cv=kfold,scoring="accuracy")
