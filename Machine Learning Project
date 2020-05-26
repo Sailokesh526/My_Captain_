@@ -4,7 +4,7 @@ import matplotlib
 import pandas as pd
 import scipy
 import sklearn
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import StratifiedKFold
@@ -36,7 +36,11 @@ print(dataset.groupby("class").size())
 
 #univariate plots _ box and whisker plots
 dataset.plot(kind="box",subplots=True,layout=(2,2),sharex=False,sharey=False)
-pyplot.show()
+plt.show()
+
+#Histogram of the variable
+datasets.hist()
+plot.show()
 
 #creating a validation dataset
 #splitting dataset
@@ -72,9 +76,9 @@ for name,model in models:
     print("%s: %f (%f)" % (name,cv_results.mean(),cv_results.std()))
 
 #comparing our models
-pyplot.boxplot(results, labels=names)
-pyplot.title("Algorithm Comparision")
-pyplot.show()
+plt.boxplot(results, labels=names)
+plt.title("Algorithm Comparision")
+plt.show()
 
 #making predictions on svc
 model =SVC(gamma="auto")
