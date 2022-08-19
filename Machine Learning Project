@@ -75,7 +75,7 @@ for name,model in models:
     names.append(name)
     print("%s: %f (%f)" % (name,cv_results.mean(),cv_results.std()))
 
-#comparing our models
+#comparing our Models
 plt.boxplot(results, labels=names)
 plt.title("Algorithm Comparision")
 plt.show()
